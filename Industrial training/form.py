@@ -1,6 +1,11 @@
+from pymysql import *
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk
+
+db=connect("localhost","root","1234","mydatabase")
+cursor=db.cursor()
+
 class login_system:
             def __init__(self,root):
                 self.root=root
@@ -30,15 +35,34 @@ class login_system:
                 labelpass = Label(Login_Frame, text="Password", image=self.pass_icon,compound=LEFT,font=("Industry Inc Detail Fill", 20, "bold"), bg="white")
                 labelpass.grid(row=3,column=0,padx=20,pady=10)
                 pass_entry = Entry(Login_Frame, bd=5,textvariable=self.password, relief=GROOVE, font=("", 15)).grid(row=3, column=1, padx=20)
-                btn_login=Button(Login_Frame,command=self.login,text="Login",width=15,font=("Industry Inc Detail Fill", 20, "bold"),bg="skyblue",fg="white").grid(row=4,column=1,pady=10)
+                btn_login=Button(Login_Frame,command=self.login,text="Login",width=10,font=("Industry Inc Detail Fill", 20, "bold"),bg="skyblue",fg="white").grid(row=4,column=1,pady=10)
+                btn_signup = Button(Login_Frame, command=self.login, text="SignUp", width=10,font=("Industry Inc Detail Fill", 20, "bold"), bg="skyblue", fg="white").grid(row=4,columnspan=1,pady=10)
+
             def login(self):
-                if self.username.get()=="" or self.password.get()=="":
-                    messagebox.showerror("Error","All Fields are required!!")
-                elif self.username.get()=="Ashutosh" and self.password.get()=="1234":
+                sql="SELECT * FROM LOGIN \
+                     WHERE FIRST_NAME ='%s' AND PASSWORD ='%s'"%(self.username.get(),self.password.get())
+                cursor.execute(sql)
+                result=cursor.fetchall()
+
+                # if self.username.get()=="" or self.password.get()=="":
+                #     messagebox.showerror("Error","All Fields are required!!")
+                if result:
                     messagebox.showinfo("Succesfull",f"Welcome {self.username.get()}")
+                    self.username.set("")
+                    self.password.set("")
+                    db.close()
+                elif self.username.get()=="" or self.password.get()=="":
+                    messagebox.showerror("Error","ALL FIELDS ARE MANDATRORY")
+                    self.username.set("")
+                    self.password.set("")
                 else:
                     messagebox.showerror("Error","Invalid Username or Password!")
+                    self.username.set("")
+                    self.password.set("")
 
 root=Tk()
 obj=login_system(root)
 root.mainloop()
+
+
+
