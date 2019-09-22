@@ -56,7 +56,7 @@ class login_system:
                     self.username.set("")
                     self.password.set("")
                 else:
-                    messagebox.showerror("Error","Invalid Username or Password!")
+                    messagebox.showerror("Error","Invalid Username or Password!!")
                     self.username.set("")
                     self.password.set("")
 
