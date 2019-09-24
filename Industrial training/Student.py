@@ -192,7 +192,7 @@ class  Student:
         self.clear()
 
     def search(self):
-        db = connect("localhost", "root", "1234", "mydatabase")
+        db = connect("localhost","root", "1234", "mydatabase")
         cursor = db.cursor()
 
         cursor.execute("select * from students where "+str(self.seachby.get())+" LIKE '%"+str(self.searchtext.get())+"%'")
