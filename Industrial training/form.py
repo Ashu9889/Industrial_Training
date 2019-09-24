@@ -1,7 +1,10 @@
+import Signup
 from pymysql import *
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk
+
+
 
 db=connect("localhost","root","1234","mydatabase")
 cursor=db.cursor()
@@ -36,7 +39,16 @@ class login_system:
                 labelpass.grid(row=3,column=0,padx=20,pady=10)
                 pass_entry = Entry(Login_Frame, bd=5,textvariable=self.password, relief=GROOVE, font=("", 15)).grid(row=3, column=1, padx=20)
                 btn_login=Button(Login_Frame,command=self.login,text="Login",width=10,font=("Industry Inc Detail Fill", 20, "bold"),bg="skyblue",fg="white").grid(row=4,column=1,pady=10)
-                btn_signup = Button(Login_Frame, command=self.login, text="SignUp", width=10,font=("Industry Inc Detail Fill", 20, "bold"), bg="skyblue", fg="white").grid(row=4,columnspan=1,pady=10)
+                btn_signup = Button(Login_Frame, command=self.new, text="SignUp", width=10,font=("Industry Inc Detail Fill", 20, "bold"), bg="skyblue", fg="white").grid(row=4,columnspan=1,pady=10)
+
+            def new(self):
+                 self.root.withdraw()
+                 self.newwindow=Toplevel()
+                 ob=Signup.Signup_system(self.newwindow,self.root)
+
+
+
+
 
             def login(self):
                 sql="SELECT * FROM LOGIN \
@@ -56,9 +68,10 @@ class login_system:
                     self.username.set("")
                     self.password.set("")
                 else:
-                    messagebox.showerror("Error","Invalid Username or Password!!")
+                    messagebox.showerror("Error","Invalid Username or Password!")
                     self.username.set("")
                     self.password.set("")
+
 
 root=Tk()
 obj=login_system(root)
